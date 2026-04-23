@@ -44,20 +44,19 @@ func _ready() -> void:
 	
 
 	if is_in_bounds() and change_music:
-		var music_loader = get_node_or_null(music_loader_ref)
-		if !music_loader:
-			printerr("[CamArea] Can't resolve the MusicLoader node")
-		else:
-			print(Audio._music_channels)
-			await get_tree().physics_frame
-			if music_loader.music[set_music_index] != Audio._music_channels.get(music_loader.channel_id).stream:
-				music_loader._change_music(music_loader.index, music_loader.channel_id)
-			
-			_is_initial = false
-			return
+		change_music_on_ready.call_deferred()
+
 	
 	await get_tree().physics_frame
 	_is_initial = false
+
+func change_music_on_ready():
+	var music_loader = get_node_or_null(music_loader_ref)
+	if !music_loader:
+		printerr("[CamArea] Can't resolve the MusicLoader node")
+	else:
+		if music_loader.music[set_music_index] != Audio._music_channels.get(music_loader.channel_id).stream:
+			music_loader._change_music(music_loader.index, music_loader.channel_id)
 
 func _draw() -> void:
 	if !Engine.is_editor_hint(): return
