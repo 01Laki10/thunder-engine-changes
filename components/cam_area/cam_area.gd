@@ -55,6 +55,7 @@ func change_music_on_ready():
 	if !music_loader:
 		printerr("[CamArea] Can't resolve the MusicLoader node")
 	else:
+		if !Audio._music_channels.get(music_loader.channel_id): return
 		if music_loader.music[set_music_index] != Audio._music_channels.get(music_loader.channel_id).stream:
 			music_loader._change_music(music_loader.index, music_loader.channel_id)
 
