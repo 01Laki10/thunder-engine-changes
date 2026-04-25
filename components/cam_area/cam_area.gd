@@ -113,7 +113,7 @@ func _physics_process(_delta: float) -> void:
 	
 	
 	
-	if !is_in_bounds && is_current:
+	if !is_in_bounds() && is_current:
 		is_current = false
 
 
